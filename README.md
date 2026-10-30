@@ -40,7 +40,7 @@ SKY130A is an open-source 130 nm CMOS process design kit. It provides transistor
 | Netgen | LVS verification | Installed |
 | NGSpice | Circuit simulation | Installed |
 | Git | Version control | Installed |
-| SKY130A PDK | Process technology | Integration verification pending |
+| SKY130A PDK | Process technology | Installed |
 
 ### 1.3 Tool Verification Commands
 ```bash
