@@ -98,8 +98,8 @@ Intermediate Magic layout files have been saved. The physical layout is not yet 
 | EDA tool installation | Completed |
 | CMOS inverter schematic files | Created |
 | Simulation output files | Generated |
-| Final physical layout | In progress |
-| DRC sign-off | Pending |
+| Final physical layout | Done |
+| DRC sign-off | Verification|
 | LVS verification | Pending |
 | Post-layout simulation | Pending |
 
