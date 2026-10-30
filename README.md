@@ -110,10 +110,6 @@ Intermediate Magic layout files have been saved. The physical layout is not yet 
 - Working with SPICE simulation and Magic layout files
 
 ## 5. Future Work
-1. Confirm SKY130A PDK integration
-2. Review the schematic and simulation results
-3. Complete the CMOS inverter physical layout
-4. Perform DRC
 5. Perform LVS using Netgen
 6. Run post-layout simulation
 
