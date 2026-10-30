@@ -76,7 +76,6 @@ Files:
 - inverter_waveform.png
 
 Simulation results are being reviewed and documented.
-<img width="1006" height="648" alt="Screenshot 2026-10-29 155942" src="https://github.com/user-attachments/assets/ab863349-6d2d-4069-a173-8016b3656d55" />
 <img width="1917" height="1198" alt="Screenshot 2026-10-29 192537" src="https://github.com/user-attachments/assets/39731523-d688-4c88-96dd-7fa20c22e3ab" />
 <img width="1917" height="1198" alt="Screenshot 2026-10-29 212513" src="https://github.com/user-attachments/assets/e5889b74-945d-4359-857c-3856816fe934" />
 <img width="847" height="782" alt="Screenshot 2026-10-29 214817" src="https://github.com/user-attachments/assets/40ce2e57-de9c-4347-a21f-44fb773abbaf" />
