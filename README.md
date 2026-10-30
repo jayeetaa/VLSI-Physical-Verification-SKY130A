@@ -110,8 +110,8 @@ Intermediate Magic layout files have been saved. The physical layout is not yet 
 - Working with SPICE simulation and Magic layout files
 
 ## 5. Future Work
-5. Perform LVS using Netgen
-6. Run post-layout simulation
+1. Perform LVS using Netgen
+2. Run post-layout simulation
 
 ## 6. References
 - SKY130A PDK documentation
