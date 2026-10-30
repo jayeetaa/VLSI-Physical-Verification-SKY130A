@@ -84,7 +84,6 @@ Simulation results are being reviewed and documented.
 
 ### 2.4 Magic Layout — Work in Progress
 Intermediate Magic layout files have been saved. The physical layout is not yet finalized or verified.
-<img width="1360" height="793" alt="Screenshot 2026-10-29 221857" src="https://github.com/user-attachments/assets/0ed9b102-ac9d-473a-9e1f-514c6f8c8077" />
 <img width="428" height="145" alt="Screenshot 2026-10-29 225456" src="https://github.com/user-attachments/assets/0113ad2a-2153-4e70-ab2b-d56e56ae93a2" />
 <img width="807" height="300" alt="Screenshot 2026-10-30 092025" src="https://github.com/user-attachments/assets/44bbebbe-252e-436f-b926-baeeb2df60bd" />
 
