@@ -1,284 +1,914 @@
-VLSI Physical Verification Using SKY130A PDK
-CMOS Inverter Design | Xschem • NGSpice • Magic VLSI • Netgen
-Author: Jayeetaa Yeddanapalli
-Repository: jayeetaa/VLSI-Physical-Verification-SKY130A
-Project status: Physical layout development and debugging; final DRC/LVS sign-off and post-layout simulation not yet confirmed.
 
-Project Overview
-This repository documents my hands-on implementation of a CMOS inverter using the open-source SKY130A 130 nm Process Design Kit (PDK). The work covers the Ubuntu development environment, open-source EDA tools, schematic capture, pre-layout simulation, physical layout, layout debugging, and the verification workflow. It records both completed work and unresolved issues rather than presenting unverified results as final.
-Project Objectives
-1. Configure the SKY130A PDK and the required open-source EDA tools.
-2. Design a CMOS inverter schematic in Xschem using SKY130A transistors.
-3. Generate a SPICE netlist and study transient inverter behavior using NGSpice.
-4. Create a transistor-level physical layout using Magic VLSI.
-5. Inspect routing, power connections, device terminals, and design-rule violations.
-6. Extract the layout netlist and compare it against the schematic using Netgen.
-7. Perform post-layout simulation after connectivity and verification issues are resolved.
-0. Theory — SKY130A PDK and Open-Source EDA Flow
-0.1 SKY130A Process Design Kit
-The SKY130A PDK provides process-specific transistor models, technology layers, design rules, and supporting files for schematic design, circuit simulation, physical layout, and verification.
-0.2 PDK Resources
-Resource	Role in this project
-SPICE models	Describe the electrical behavior of NFET and PFET devices
-Magic technology files	Define layout layers and rules used for editing and DRC
-Xschem libraries	Provide schematic symbols for SKY130A devices
-Netgen setup files	Configure device recognition and LVS comparisons
-Extraction information	Supports layout netlist and parasitic extraction
+# VLSI Physical Verification Using SKY130A PDK
 
+### CMOS Inverter Design and Physical Verification Using Open-Source EDA Tools
 
-0.3 Physical Layers and Connections
-The layout uses transistor active regions and polysilicon gates, local interconnect and contacts, metal routing, and vias. Metal1 is used for local routing and power rails; a Metal2 jumper was explored to cross a routing obstruction without shorting unrelated nets.
-0.4 Design and Verification Workflow
-SKY130A PDK + tool configuration
-              |
-              v
-      Xschem schematic
-              |
-              v
-     SPICE netlist / testbench
-              |
-              v
-     NGSpice pre-layout simulation
-              |
-              v
-       Magic physical layout
-              |
-              v
-     DRC inspection and fixes
-              |
-              v
-       Layout extraction
-              |
-              v
-     Netgen LVS comparison
-              |
-              v
-    NGSpice post-layout simulation
-1. Development Environment
-1.1 System Information
-Item	Configuration
-Operating system	Ubuntu 22.04.5 LTS
-Project root	~/Physical_Verification_SKY130A/
-Lab directory	~/Physical_Verification_SKY130A/Lab1_CMOS_Inverter/
-PDK directory	/home/jayee/open_pdks/sky130/sky130A/
-Magic executable	/usr/local/bin/magic
-Netgen executable	/usr/local/bin/netgen
-NGSpice executable	/usr/bin/ngspice
+**Author:** Jayeetaa Yeddanapalli  
+**Technology:** SKY130A 130 nm CMOS PDK  
+**Tools:** Xschem | NGSpice | Magic VLSI | Netgen | Git  
+**Operating System:** Ubuntu 22.04.5 LTS  
+**Project Status:** In Progress
 
+---
 
-1.2 System Validation
+## Project Overview
+
+This repository documents my hands-on VLSI physical verification project using the open-source SKY130A Process Design Kit (PDK).
+
+The project focuses on designing a CMOS inverter, performing pre-layout simulation, developing the transistor-level physical layout, and preparing the circuit for Design Rule Checking (DRC), Layout Versus Schematic (LVS) verification, and post-layout simulation.
+
+The project also documents environment configuration, installation and integration of open-source EDA tools, debugging challenges, intermediate design files, and practical learning outcomes.
+
+### Project Objectives
+
+1. Understand the SKY130A Process Design Kit.
+2. Configure the Linux-based VLSI design environment.
+3. Install and verify open-source EDA tools.
+4. Design a CMOS inverter schematic using Xschem.
+5. Generate the SPICE netlist.
+6. Perform pre-layout transient simulation using NGSpice.
+7. Create the CMOS inverter physical layout using Magic VLSI.
+8. Verify layout geometry using DRC.
+9. Extract the layout netlist.
+10. Perform LVS verification using Netgen.
+11. Perform post-layout simulation and compare the results.
+
+---
+
+## 0. Theory — SKY130A PDK and Open-Source EDA Flow
+
+### 0.1 SKY130A Process Design Kit
+
+The SKY130A PDK is an open-source 130 nm CMOS process design kit.
+
+It provides the technology-specific resources required for integrated circuit design, simulation, layout, and verification.
+
+The PDK includes:
+
+- SPICE transistor models
+- Physical technology files
+- Design rules
+- Device libraries
+- Layout extraction information
+- LVS configuration files
+
+### 0.2 SKY130A PDK Libraries
+
+| Library | Purpose |
+|---|---|
+| SPICE Models | Electrical behavior of MOS transistors |
+| Technology Files | Physical layers and layout rules |
+| Device Libraries | Technology-specific NFET and PFET devices |
+| Xschem Libraries | Schematic symbols |
+| Magic Technology Files | Physical layout and DRC |
+| Netgen Setup Files | LVS verification |
+| NGSpice Models | Circuit simulation |
+
+### 0.3 SKY130A Physical Layers
+
+The physical layout contains semiconductor and interconnect layers.
+
+Important structures include:
+
+- N-well
+- Diffusion regions
+- Polysilicon gates
+- Local interconnect
+- Contacts
+- Metal1
+- Metal2
+- Vias
+- Substrate and well connections
+
+These layers are used to construct transistors and connect their terminals electrically.
+
+### 0.4 Open-Source EDA Workflow
+
+The design and verification workflow followed in this project is:
+
+```text
+SKY130A PDK Configuration
+          |
+          v
+Xschem Schematic Design
+          |
+          v
+SPICE Netlist Generation
+          |
+          v
+NGSpice Pre-Layout Simulation
+          |
+          v
+Magic VLSI Physical Layout
+          |
+          v
+Design Rule Checking
+          |
+          v
+Layout Netlist Extraction
+          |
+          v
+Netgen LVS Verification
+          |
+          v
+NGSpice Post-Layout Simulation
+          |
+          v
+Results and Documentation
+```
+
+---
+
+## 1. Environment Setup
+
+### 1.1 System Information
+
+The project was developed using Ubuntu Linux.
+
+| Parameter | Configuration |
+|---|---|
+| Operating System | Ubuntu 22.04.5 LTS |
+| Development Environment | Linux |
+| RAM | 10 GiB |
+| Swap | 4 GiB |
+| CPU Cores | 4 |
+| Disk Size | 59 GiB |
+| Technology | SKY130A |
+| Project Directory | Physical_Verification_SKY130A |
+
+### 1.2 System Verification
+
+The following commands were used to inspect the development environment:
+
+```bash
 lsb_release -a
 uname -a
 free -h
 df -h /
 nproc
-1.3 Tools Used
-Tool	Purpose	Project progress
-Magic VLSI 8.3 series	Physical layout and DRC	Installed and used
-Xschem	Schematic and SPICE netlisting	Installed and used
-Netgen	LVS verification	Installed; final match pending
-NGSpice 37	Transient simulation	Installed; pre-layout files generated
-Git	Version control	Installed
-SKY130A PDK	Process technology	Configured
+```
 
+These commands provide operating system information, memory availability, disk usage, and CPU details.
 
-Tool verification commands:
-which magic && magic --version
-which xschem && xschem --version
-which netgen && netgen --version
-which ngspice && ngspice --version
+### 1.3 Git Installation and Verification
+
+Git is used for version control and GitHub project documentation.
+
+```bash
+sudo apt install git -y
 git --version
-Tool setup screenshot:
+```
 
-1.4 SKY130A Technology Integration
-The local PDK resources used during development include:
+### 1.4 EDA Tools Used
+
+| Tool | Purpose | Status |
+|---|---|---|
+| Magic VLSI | Physical layout and DRC | Installed |
+| Xschem | Schematic design | Installed |
+| Netgen | LVS verification | Installed |
+| NGSpice | Circuit simulation | Installed |
+| Git | Version control | Installed |
+| SKY130A PDK | Process technology | Configured |
+
+### Screenshot 1 — EDA Tool Verification
+
+<img width="496" alt="EDA Tool Verification" src="https://github.com/user-attachments/assets/80b6257a-7bde-440d-8dbc-3e0677f92ad3" />
+
+---
+
+## 2. Open-Source EDA Tool Configuration
+
+### 2.1 Magic VLSI
+
+Magic VLSI is an open-source layout editor used for physical IC design and design rule checking.
+
+The installed Magic executable is located at:
+
+```bash
+/usr/local/bin/magic
+```
+
+Verification commands:
+
+```bash
+which magic
+magic --version
+```
+
+### 2.2 Xschem
+
+Xschem is used to create transistor-level circuit schematics and generate SPICE netlists.
+
+Verification commands:
+
+```bash
+which xschem
+xschem --version
+xschem
+```
+
+### 2.3 Netgen
+
+Netgen is used for Layout Versus Schematic verification.
+
+It compares the extracted physical layout netlist with the reference schematic netlist.
+
+```bash
+which netgen
+netgen --version
+```
+
+### 2.4 NGSpice
+
+NGSpice is used for transient simulation and waveform analysis.
+
+```bash
+which ngspice
+ngspice --version
+```
+
+### 2.5 SKY130A PDK Integration
+
+The SKY130A PDK was configured using Open_PDKs.
+
+Local PDK directory:
+
+```bash
+/home/jayee/open_pdks/sky130/sky130A/
+```
+
+Important technology resources:
+
+**Magic Technology File**
+
+```text
 /home/jayee/open_pdks/sky130/sky130A/libs.tech/magic/sky130A.tech
-/home/jayee/open_pdks/sky130/sky130A/libs.tech/magic/sky130A.magicrc
+```
+
+**Netgen LVS Setup File**
+
+```text
 /home/jayee/open_pdks/sky130/sky130A/libs.tech/netgen/sky130A_setup.tcl
+```
+
+**NGSpice Model Library**
+
+```text
 /home/jayee/open_pdks/sky130/sky130A/libs.tech/ngspice/sky130.lib.spice
-Launch Magic with the technology file:
+```
+
+### 2.6 Launching Magic with SKY130A
+
+The following command was used:
+
+```bash
 magic -T /home/jayee/open_pdks/sky130/sky130A/libs.tech/magic/sky130A.tech -d OGL
-Implementation note: The OGL display driver was used because the XR driver previously produced a BadAlloc issue in this environment.
-2. Lab 1 — CMOS Inverter Design
-2.1 Operating Principle
-A CMOS inverter uses a PFET pull-up device and an NFET pull-down device:
-- Input LOW: PFET conducts, NFET is off, and the output is HIGH.
-- Input HIGH: NFET conducts, PFET is off, and the output is LOW.
-The inverter operates from a nominal 1.8 V supply in this project.
-2.2 Intended Transistor Specifications
-Parameter	NFET (M1)	PFET (M2)
-SKY130A model	sky130_fd_pr__nfet_01v8	sky130_fd_pr__pfet_01v8
-Width	4.5 µm	3 µm
-Length	0.18 µm	0.18 µm
-Target fingers	3	3
-Body connection	VSS	VDD
+```
 
+The OpenGL display driver was used after encountering a display-related issue with the XR driver.
 
-Netlist consistency note: An earlier Xschem netlist showed the PFET with nf=1 while the intended design specified nf=3. This difference must be checked before final LVS sign-off.
-2.3 Xschem Schematic
-The inverter schematic uses the four external signals VDD, VSS, IN, OUT. The PFET source/body connect to VDD, the NFET source/body connect to VSS, both gates connect to IN, and both drains connect to OUT.
+---
 
-Local schematic files developed during the project include Inverter.sch, Inverter.sym, and additional inverter/testbench variants in the xschem/ directory.
+## 3. Lab 1 — CMOS Inverter Design
 
-Screenshot — CMOS inverter schematic:
+### 3.1 CMOS Inverter Working Principle
 
-2.4 SPICE Netlist and Pre-Layout Simulation
-The pre-layout work uses a 1.8 V supply, a pulse input, and an output load. The saved simulation materials include:
+A CMOS inverter is a basic digital logic circuit consisting of two complementary MOS transistors:
+
+- PMOS transistor as the pull-up device
+- NMOS transistor as the pull-down device
+
+The inverter produces an output opposite to its input.
+
+| Input | PMOS | NMOS | Output |
+|---|---|---|---|
+| LOW (0) | ON | OFF | HIGH (1) |
+| HIGH (1) | OFF | ON | LOW (0) |
+
+The inverter operates with a nominal supply voltage of 1.8 V.
+
+### 3.2 Transistor Specifications
+
+The intended transistor parameters are:
+
+| Parameter | NMOS (M1) | PMOS (M2) |
+|---|---|---|
+| Device Model | sky130_fd_pr__nfet_01v8 | sky130_fd_pr__pfet_01v8 |
+| Width | 4.5 µm | 3 µm |
+| Length | 0.18 µm | 0.18 µm |
+| Target Fingers | 3 | 3 |
+| Multiplicity | 1 | 1 |
+| Body Connection | VSS | VDD |
+
+**Note:** An earlier generated schematic netlist contained a PMOS finger-count discrepancy. The final transistor parameters must be checked before LVS sign-off.
+
+### 3.3 CMOS Inverter Schematic — Xschem
+
+The CMOS inverter schematic was developed using Xschem and SKY130A transistor models.
+
+The schematic contains four external signals:
+
+- VDD — Power supply
+- VSS — Ground
+- IN — Input signal
+- OUT — Output signal
+
+The PMOS and NMOS gates are connected to the common input.
+
+Their drains form the common output.
+
+The PMOS source and body connect to VDD, while the NMOS source and body connect to VSS.
+
+### Screenshot 2 — CMOS Inverter Schematic
+
+<img width="900" alt="CMOS Inverter Schematic" src="https://github.com/user-attachments/assets/41ba6d24-2880-4715-81ce-ca651fdc993c" />
+
+### 3.4 Schematic and Symbol Files
+
+The project includes schematic and symbol files created during development.
+
+Examples:
+
+```text
+Inverter.sch
+Inverter.sym
+jayee_inverter.sch
+jayee_inverter_tb.sch
+```
+
+These files support schematic editing, symbol representation, and testbench development.
+
+---
+
+## 4. Pre-Layout Simulation — NGSpice
+
+### 4.1 Objective
+
+The objective of pre-layout simulation is to evaluate the electrical behavior of the CMOS inverter before physical layout implementation.
+
+### 4.2 Simulation Configuration
+
+The simulation uses:
+
+- Supply voltage: 1.8 V
+- Pulse input signal
+- SKY130A transistor models
+- Output load capacitance
+- Transient analysis
+
+### 4.3 SPICE Simulation Files
+
+The following files were generated during development:
+
+```text
 simulation/inverter.spice
 simulation/inverter_waveform.txt
 simulation/inverter_waveform.png
-The intended logic relationship is OUT = NOT(IN). The saved simulation outputs should be reviewed against this expectation and retained as evidence of the waveform results.
+```
 
-Screenshots — SPICE setup and simulation progress:
+### 4.4 Running the Simulation
 
-3. Magic VLSI Physical Layout — 29–31 October 2026
-3.1 Layout Development Objective
-Translate the CMOS inverter schematic into a physical layout containing NFET and PFET device instances, gate connections, power rails, output routing, and four labeled ports.
-3.2 Layout Organization
-The design work explored:
-- PFET placement toward the top and NFET placement toward the bottom.
-- VDD power rail above the PFET and VSS rail below the NFET.
-- Common gate routing for IN.
-- Drain interconnections for OUT.
-- Metal1 routing and a Metal1 → Via1 → Metal2 → Via1 → Metal1 jumper.
-- Port labels and device pin connectivity.
-Earlier layout screenshots:
+From the simulation directory:
 
-3.3 Saved Layout Versions
-Multiple intermediate files were saved to preserve progress and allow comparison during debugging. Examples include:
+```bash
+ngspice inverter.spice
+```
+
+### 4.5 Expected Inverter Behavior
+
+For a correctly connected CMOS inverter:
+
+- Input HIGH produces output LOW.
+- Input LOW produces output HIGH.
+- The output waveform should be complementary to the input waveform.
+
+### Screenshot 3 — SPICE Simulation
+
+<img width="900" alt="SPICE Simulation" src="https://github.com/user-attachments/assets/39731523-d688-4c88-96dd-7fa20c22e3ab" />
+
+### Screenshot 4 — Simulation Development
+
+<img width="900" alt="Simulation Development" src="https://github.com/user-attachments/assets/e5889b74-945d-4359-857c-3856816fe934" />
+
+### Screenshot 5 — Simulation Output
+
+<img width="650" alt="Simulation Output" src="https://github.com/user-attachments/assets/40ce2e57-de9c-4347-a21f-44fb773abbaf" />
+
+### 4.6 Simulation Progress
+
+The pre-layout SPICE simulation files and waveform outputs were generated and saved.
+
+These results form the basis for comparing the circuit's behavior with the post-layout simulation after physical verification.
+
+---
+
+## 5. Physical Layout Design — Magic VLSI
+
+### 5.1 Objective
+
+The objective of physical layout design is to implement the CMOS inverter using SKY130A physical layers.
+
+The layout must represent the MOS transistors and their electrical connections.
+
+### 5.2 Transistor Placement
+
+The layout development followed the arrangement:
+
+- PMOS transistor positioned toward the top
+- NMOS transistor positioned toward the bottom
+- VDD power rail near the PMOS
+- VSS ground rail near the NMOS
+- Common gate routing for IN
+- Common drain routing for OUT
+
+### 5.3 Layout Connections
+
+The required circuit connections are:
+
+| Terminal | Connection |
+|---|---|
+| PMOS Source | VDD |
+| PMOS Body | VDD |
+| NMOS Source | VSS |
+| NMOS Body | VSS |
+| PMOS Gate | IN |
+| NMOS Gate | IN |
+| PMOS Drain | OUT |
+| NMOS Drain | OUT |
+
+### 5.4 Magic Layout Development
+
+The physical layout was developed using Magic VLSI with the SKY130A technology file.
+
+Work included:
+
+1. Loading SKY130A transistor device cells.
+2. Inspecting NFET and PFET physical layers.
+3. Positioning transistor instances.
+4. Creating power rail connections.
+5. Working on gate and drain routing.
+6. Adding and adjusting metal interconnections.
+7. Working with VDD, VSS, IN, and OUT labels.
+8. Inspecting layout geometry and connectivity.
+
+### Screenshot 6 — Initial Magic Layout Development
+
+<img width="428" alt="Initial Magic Layout" src="https://github.com/user-attachments/assets/0113ad2a-2153-4e70-ab2b-d56e56ae93a2" />
+
+### Screenshot 7 — Magic Layout Progress
+
+<img width="807" alt="Magic Layout Progress" src="https://github.com/user-attachments/assets/44bbebbe-252e-436f-b926-baeeb2df60bd" />
+
+### 5.5 Saved Magic Layout Files
+
+Several working versions were created during development.
+
+```text
 layout/inverter.mag
+
 layout_final/Inverter_Routed.mag
+
 layout_final/Inverter_Final.mag
+
 layout_final/Inverter_Clean.mag
-These names describe working versions, not independently verified sign-off files. A file named Inverter_Clean.mag does not by itself establish that DRC or LVS passed.
-3.4 Opening the Saved Layout
-From an Ubuntu terminal:
+```
+
+These files represent different stages of layout development and debugging.
+
+The file names do not indicate completed DRC or LVS sign-off.
+
+### 5.6 Opening the Saved Magic Layout
+
+Open Ubuntu terminal:
+
+```bash
 cd ~/Physical_Verification_SKY130A/Lab1_CMOS_Inverter/layout_final
+```
+
+Launch Magic:
+
+```bash
 magic -T /home/jayee/open_pdks/sky130/sky130A/libs.tech/magic/sky130A.tech -d OGL Inverter_Clean.mag
-Within the Magic Tcl console:
+```
+
+Inside the Magic Tcl console:
+
+```tcl
 expand
 zoom full
-If Magic reports No such file or directory, verify the current folder and the exact file name before loading:
-pwd
-glob *.mag
-Important: readspice availability varies by Magic build; the existing .mag layout can be opened directly without importing SPICE. ext2spice is for extracting a SPICE netlist from layout, not importing one.
-3.5 Layout Debugging and Observations
-During routing and extraction, the following issues were encountered:
-1. Unconnected multi-finger terminals: Extracted NFET nodes appeared as separate nets such as XM1/S1, XM1/S2, and individual gate/drain nodes. These require careful verification of source, drain, and gate wiring.
-2. PFET and NFET connectivity: Device terminals and the shared output connection needed inspection before reliable LVS comparison.
-3. Routing conflicts: A Metal2 jumper was explored to route over an obstruction while avoiding a Metal1 short.
-4. Floating extracted geometry: One extracted version contained a floating parasitic capacitor, indicating that further inspection was required.
-5. Layout editing: Magic layer selection, expanded cells, port labels, and console commands required iterative troubleshooting.
-The extracted netlist at one point contained multiple NFET devices instead of the intended merged device representation. This is an LVS debugging issue, not proof of a successful comparison.
-4. Design Rule Checking (DRC)
-4.1 Purpose
-DRC checks whether the drawn geometry follows the physical design rules defined by the SKY130A technology.
-4.2 Magic Commands
-Run inside the Magic Tcl console after loading the desired layout:
+```
+
+### 5.7 Layout Routing
+
+Metal1 was used for local routing and power rail connections.
+
+A Metal2 jumper was explored for crossing a routing obstruction.
+
+The routing approach involves:
+
+```text
+Metal1
+  |
+ Via1
+  |
+Metal2
+  |
+ Via1
+  |
+Metal1
+```
+
+This approach allows a signal to cross over another metal route without directly shorting the two nets, provided the layout follows the technology design rules.
+
+### 5.8 Layout Debugging
+
+During layout development, several challenges were encountered.
+
+**Problem 1 — Unconnected Device Terminals**
+
+Some extracted transistor terminals appeared as separate nets.
+
+Examples included:
+
+```text
+XM1/S1
+XM1/S2
+XM1/G0
+XM1/G1
+```
+
+These observations required inspection of transistor terminal connectivity.
+
+**Problem 2 — Routing Conflicts**
+
+Some metal connections needed rerouting to avoid unintended shorts.
+
+**Problem 3 — Floating Geometry**
+
+An extracted layout version contained a floating parasitic capacitor, indicating that additional layout inspection was necessary.
+
+**Problem 4 — Magic Interface and Cell Loading**
+
+Challenges included:
+
+- Loading saved layout files
+- Expanding transistor cells
+- Selecting physical layers
+- Working with the Tcl command console
+- Inspecting port labels
+- Managing intermediate layout versions
+
+### 5.9 Layout Progress
+
+The CMOS inverter physical layout has been developed through several iterations.
+
+The layout still requires final connectivity checks and verification before sign-off.
+
+---
+
+## 6. Design Rule Checking (DRC)
+
+### 6.1 Objective
+
+Design Rule Checking verifies whether the physical layout satisfies the geometric constraints defined by the SKY130A PDK.
+
+DRC helps identify:
+
+- Minimum spacing violations
+- Minimum width violations
+- Incorrect layer overlaps
+- Contact and via geometry issues
+- Other technology-specific layout violations
+
+### 6.2 DRC Commands
+
+Inside the Magic Tcl console:
+
+```tcl
 drc check
 drc count
 drc why
-4.3 Current Status
-Earlier saved Magic files contained error_s geometry, and layout corrections were still in progress. A final zero-error DRC result has not yet been confirmed. A future sign-off update should include the exact layout filename, DRC count, and a screenshot of the result.
-5. Layout Extraction and LVS — Netgen
-5.1 Purpose
-Layout Versus Schematic (LVS) checks whether the devices and electrical connections extracted from the physical layout correspond to those in the reference Xschem schematic.
-5.2 Extracting a SPICE Netlist
-In Magic, after loading the layout:
+```
+
+### 6.3 DRC Verification Procedure
+
+1. Open the required Magic layout.
+2. Expand the device cells.
+3. Run the DRC check.
+4. Inspect reported violations.
+5. Correct layout geometry.
+6. Run DRC again.
+7. Record the final error count.
+
+### 6.4 DRC Status
+
+DRC-related layout inspection and debugging have been performed.
+
+Earlier layout files contained reported error geometry.
+
+**Final zero-error DRC sign-off has not yet been confirmed.**
+
+The final DRC result will be documented with its corresponding layout file and verification screenshot.
+
+---
+
+## 7. Layout Extraction
+
+### 7.1 Objective
+
+Layout extraction converts the physical layout into an electrical representation containing recognized devices and their connections.
+
+The extracted netlist is used for LVS comparison.
+
+### 7.2 Extraction Commands
+
+Inside Magic:
+
+```tcl
 extract all
 ext2spice lvs
 ext2spice
-The resulting netlist must be inspected to confirm device count, transistor parameters, port names, and connectivity.
-5.3 Netgen Setup
-The SKY130A Netgen setup file is located at:
+```
+
+### 7.3 Extracted Layout Files
+
+During development, extracted files included:
+
+```text
+Inverter_Routed.ext
+Inverter_Routed.spice
+
+Inverter_Final.ext
+Inverter_Final.spice
+```
+
+### 7.4 Extraction Observations
+
+Intermediate extraction results showed separate transistor terminal nets and connectivity issues.
+
+These observations helped identify areas requiring additional routing and verification.
+
+---
+
+## 8. Layout Versus Schematic (LVS) — Netgen
+
+### 8.1 Objective
+
+LVS verifies whether the extracted physical layout is electrically equivalent to the reference schematic.
+
+The comparison checks:
+
+- Transistor types
+- Device parameters
+- Number of devices
+- Net connectivity
+- Power and ground connections
+- Input and output connections
+
+### 8.2 Netgen Configuration
+
+The SKY130A LVS setup file is located at:
+
+```text
 /home/jayee/open_pdks/sky130/sky130A/libs.tech/netgen/sky130A_setup.tcl
-Example LVS command template (replace the cell names and paths with the actual matching files):
+```
+
+### 8.3 LVS Procedure
+
+1. Generate the schematic SPICE netlist using Xschem.
+2. Extract the physical layout SPICE netlist using Magic.
+3. Verify the subcircuit names.
+4. Run Netgen LVS.
+5. Inspect the comparison report.
+6. Identify unmatched devices or nets.
+7. Correct connectivity problems.
+8. Repeat verification.
+
+### 8.4 Example Netgen Command
+
+The following is a command template. The actual netlist paths and subcircuit names must be checked before running it.
+
+```bash
 netgen -batch lvs \
-  "layout_final/Inverter_Final.spice Inverter_Final" \
-  "xschem/Inverter.spice Inverter" \
-  /home/jayee/open_pdks/sky130/sky130A/libs.tech/netgen/sky130A_setup.tcl \
-  lvs_report.log
-This is a template, not a recorded successful LVS run. Ensure that the two specified subcircuit names really exist in their respective SPICE files.
-5.4 LVS Debugging Checklist
-- Check the reference schematic's PFET nf parameter against the intended layout.
-- Verify every NFET/PFET source, drain, and gate finger is connected correctly.
-- Confirm the shared output net and both supply rails.
-- Confirm bulk/body connections.
-- Confirm the extracted port names match the schematic interface.
-- Compare Netgen device counts and net counts after each routing fix.
-Current status: Final Circuits match uniquely output has not been established for this project.
-6. Post-Layout Simulation — Planned
-Once DRC and LVS are resolved, the Magic-extracted netlist can be used in NGSpice to assess inverter behavior with layout-related parasitic effects.
+"layout_final/Inverter_Final.spice Inverter_Final" \
+"xschem/Inverter.spice Inverter" \
+/home/jayee/open_pdks/sky130/sky130A/libs.tech/netgen/sky130A_setup.tcl \
+lvs_report.log
+```
 
-The planned comparison will inspect:
-Parameter	Pre-layout	Post-layout
-Logic function	Check inverter response	Verify after extraction
-Supply	1.8 V	1.8 V target
-Input pulse	Applied	Reuse equivalent stimulus
-Output waveform	Saved simulation outputs	Pending
-Extracted parasitics	Not from physical layout	Include as supported by extraction
-Propagation delay	Measure from waveform	Compare after simulation
+### 8.5 LVS Debugging
 
+The following issues were identified during development:
 
-Status: Pending. No post-layout waveform or measured delay is claimed here.
-7. Project Progress
-Stage	Status	Evidence / next action
-Ubuntu environment	Completed	System and tool verification
-SKY130A PDK integration	Configured	Magic and device libraries used
-Xschem inverter schematic	Created	Schematic screenshot and local files
-SPICE simulation	Outputs generated	Saved netlist and waveform files
-Magic physical layout	Working versions created	.mag files and layout screenshots
-Routing and connectivity	Debugging	Review floating nodes and terminal connections
-DRC sign-off	Not confirmed	Run and record final DRC count
-LVS sign-off	Pending	Resolve device/net mismatches
-Post-layout simulation	Pending	Simulate verified extracted netlist
-GitHub source upload	Partially complete	Upload actual project source files
+- Multiple extracted NFET terminals
+- Possible disconnected source/drain regions
+- Gate connectivity requiring inspection
+- Power and ground net consistency
+- Differences between intended and generated transistor parameters
+- Potential floating layout nodes
 
+### 8.6 LVS Status
 
-8. Key Challenges and Learnings
-8.1 Toolchain Setup
-Configuring Magic, Xschem, Netgen, NGSpice, and the SKY130A PDK required attention to technology files, library paths, and display drivers.
-8.2 Multi-Finger Transistor Connectivity
-A multi-finger transistor's physical terminals must be routed correctly. Unconnected or mislabeled terminals can create extra extracted nets and prevent an LVS match.
-8.3 Metal Routing and Via Connections
-A higher metal layer can help cross a routing obstruction, but every via, contact, and endpoint must be checked to avoid shorts and open circuits.
-8.4 Verification Is Iterative
-A visually complete layout is not necessarily DRC-clean or electrically equivalent to the schematic. Extraction and LVS are essential for detecting hidden connectivity errors.
-8.5 Versioned Working Files
-Keeping intermediate .mag, .spice, and screenshot files helped preserve progress while testing changes.
-9. Local Project Organization
-The following is a working-directory overview, not a claim that every file is already uploaded to GitHub:
+LVS preparation and layout connectivity debugging are in progress.
+
+**A final successful "Circuits match uniquely" result has not yet been established.**
+
+---
+
+## 9. Post-Layout Simulation — NGSpice
+
+### 9.1 Objective
+
+Post-layout simulation evaluates the electrical behavior of the circuit using the extracted layout netlist.
+
+It can help analyze the effects of layout-related parasitic capacitance and resistance.
+
+### 9.2 Planned Procedure
+
+1. Complete layout verification.
+2. Extract the corrected circuit netlist.
+3. Prepare the post-layout testbench.
+4. Load the SKY130A transistor models.
+5. Run transient simulation using NGSpice.
+6. Inspect input and output waveforms.
+7. Compare the results with pre-layout simulation.
+
+### 9.3 Pre-Layout and Post-Layout Comparison
+
+| Parameter | Pre-Layout | Post-Layout |
+|---|---|---|
+| Supply Voltage | 1.8 V | 1.8 V target |
+| Input Signal | Pulse | Equivalent pulse |
+| Circuit Behavior | Simulation outputs generated | Pending |
+| Layout Parasitics | Not extracted from layout | To be included |
+| Propagation Delay | To be measured | Pending |
+| Verification | Under review | Pending |
+
+### 9.4 Current Status
+
+Post-layout simulation is planned after layout connectivity and verification are completed.
+
+---
+
+## 10. Project Progress and Results
+
+| Stage | Status |
+|---|---|
+| Ubuntu Environment Setup | Completed |
+| Magic VLSI Installation | Completed |
+| Xschem Installation | Completed |
+| Netgen Installation | Completed |
+| NGSpice Installation | Completed |
+| SKY130A PDK Configuration | Completed |
+| CMOS Inverter Schematic | Created |
+| SPICE Netlist Generation | Completed |
+| Pre-Layout Simulation Files | Generated |
+| Magic Physical Layout | Working versions created |
+| Layout Routing | Debugging |
+| DRC Verification | Final sign-off pending |
+| Layout Extraction | Intermediate netlists generated |
+| LVS Verification | Pending |
+| Post-Layout Simulation | Pending |
+| GitHub Documentation | In Progress |
+
+---
+
+## 11. Challenges Faced and Solutions Explored
+
+### 11.1 EDA Tool Installation
+
+Setting up open-source EDA tools required configuring software dependencies, technology files, and library paths.
+
+### 11.2 SKY130A Integration
+
+The technology files and device libraries were configured for use with Magic, Xschem, Netgen, and NGSpice.
+
+### 11.3 Magic Display Driver Issue
+
+An XR display issue was encountered during Magic launch.
+
+The OpenGL driver was used:
+
+```bash
+magic -T /home/jayee/open_pdks/sky130/sky130A/libs.tech/magic/sky130A.tech -d OGL
+```
+
+### 11.4 Transistor Placement and Routing
+
+Developing the layout required understanding physical device terminals, metal layers, contacts, and vias.
+
+### 11.5 Multi-Finger Transistor Connectivity
+
+Extracted transistor terminals appeared as separate nets during layout debugging.
+
+This highlighted the importance of connecting all required transistor terminals correctly.
+
+### 11.6 Layout Verification
+
+The project demonstrated that a visually complete layout is not necessarily electrically correct.
+
+DRC and LVS are essential for validating physical geometry and circuit connectivity.
+
+---
+
+## 12. Key Learning Outcomes
+
+Through this project, I gained practical experience in:
+
+1. Linux-based VLSI design environments.
+2. SKY130A PDK configuration.
+3. Open-source EDA tool integration.
+4. CMOS inverter schematic design.
+5. SPICE netlist generation.
+6. Transient simulation using NGSpice.
+7. Physical transistor layout using Magic VLSI.
+8. Metal routing and via connections.
+9. Design rule inspection.
+10. Layout netlist extraction.
+11. LVS debugging concepts.
+12. Technical documentation using GitHub.
+
+---
+
+## 13. Project Directory Structure
+
+The following structure represents the local working project. Not all files have been uploaded to GitHub yet.
+
+```text
 Physical_Verification_SKY130A/
+|
 └── Lab1_CMOS_Inverter/
+    |
     ├── xschem/
-    │   ├── Inverter.sch
-    │   ├── Inverter.sym
-    │   └── jayee_inverter_tb.sch
+    |   ├── Inverter.sch
+    |   ├── Inverter.sym
+    |   └── jayee_inverter_tb.sch
+    |
     ├── simulation/
-    │   ├── inverter.spice
-    │   ├── inverter_waveform.txt
-    │   └── inverter_waveform.png
+    |   ├── inverter.spice
+    |   ├── inverter_waveform.txt
+    |   └── inverter_waveform.png
+    |
     ├── layout/
-    │   └── inverter.mag
+    |   └── inverter.mag
+    |
     └── layout_final/
         ├── Inverter_Routed.mag
         ├── Inverter_Final.mag
         └── Inverter_Clean.mag
-Additional intermediate .ext, .spice, and other layout files may exist locally. Upload the verified relevant source files and supporting screenshots to the repository so the work is reproducible.
-10. Next Steps
-1. Open the latest saved Magic layout and confirm all device instances are visible.
-2. Inspect and repair source, drain, gate, and body connectivity.
-3. Run DRC and record the actual final error count.
-4. Extract the corrected layout netlist.
-5. Run Netgen LVS and resolve mismatches until the circuits match.
-6. Run post-layout NGSpice transient simulation and compare waveforms.
-7. Upload the layout, schematic, simulation, verification logs, and screenshots to GitHub.
-11. References
-- SKY130 PDK documentation
-- Open_PDKs
-- Magic VLSI
-- Xschem
-- Netgen
-- NGSpice
-Project by Jayeetaa Yeddanapalli — SKY130A CMOS Inverter Physical Verification.
-Status: In progress; physical verification sign-off pending.
+```
+
+Additional extracted netlists, intermediate layouts, and debugging files were also created during development.
+
+---
+
+## 14. Future Work
+
+The remaining tasks are:
+
+1. Finalize CMOS inverter physical routing.
+2. Verify all transistor terminal connections.
+3. Complete DRC verification.
+4. Correct remaining layout violations.
+5. Generate the final extracted SPICE netlist.
+6. Perform Netgen LVS verification.
+7. Resolve any netlist mismatches.
+8. Run post-layout NGSpice simulation.
+9. Compare pre-layout and post-layout waveforms.
+10. Upload final project files and verification screenshots.
+
+---
+
+## 15. References
+
+1. [SKY130 PDK Documentation](https://skywater-pdk.readthedocs.io/)
+2. [Open_PDKs](https://github.com/RTimothyEdwards/open_pdks)
+3. [Magic VLSI](http://opencircuitdesign.com/magic/)
+4. [Xschem](https://xschem.sourceforge.io/)
+5. [Netgen](http://opencircuitdesign.com/netgen/)
+6. [NGSpice](https://ngspice.sourceforge.io/)
+7. [GitHub Documentation](https://docs.github.com/)
+
+---
+
+## Conclusion
+
+This project documents the practical development of a CMOS inverter using the SKY130A PDK and open-source EDA tools.
+
+The work includes environment setup, schematic design, SPICE simulation, physical layout implementation, layout extraction, and debugging.
+
+The project has provided hands-on experience in understanding the relationship between circuit schematics and transistor-level physical layouts.
+
+Further work will focus on completing DRC and LVS sign-off, performing post-layout simulation, and documenting the final verification results.
+
+---
+
+### Project Information
+
+**Project:** VLSI Physical Verification Using SKY130A PDK  
+**Lab:** CMOS Inverter Physical Verification  
+**Author:** Jayeetaa Yeddanapalli  
+**GitHub:** [jayeetaa](https://github.com/jayeetaa)  
+**Repository:** [VLSI-Physical-Verification-SKY130A](https://github.com/jayeetaa/VLSI-Physical-Verification-SKY130A)
+
+**Project Status: In Progress**
