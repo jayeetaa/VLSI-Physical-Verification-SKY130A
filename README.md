@@ -6,8 +6,7 @@
 **Author:** Jayeetaa Yeddanapalli  
 **Technology:** SKY130A 130 nm CMOS PDK  
 **Tools:** Xschem | NGSpice | Magic VLSI | Netgen | Git  
-**Operating System:** Ubuntu 22.04.5 LTS  
-**Project Status:** In Progress
+**Operating System:** Ubuntu 22.04.5 LTS 
 
 ---
 
@@ -866,28 +865,10 @@ Additional extracted netlists, intermediate layouts, and debugging files were al
 
 The remaining tasks are:
 
-1. Finalize CMOS inverter physical routing.
-2. Verify all transistor terminal connections.
-3. Complete DRC verification.
-4. Correct remaining layout violations.
-5. Generate the final extracted SPICE netlist.
-6. Perform Netgen LVS verification.
-7. Resolve any netlist mismatches.
-8. Run post-layout NGSpice simulation.
-9. Compare pre-layout and post-layout waveforms.
-10. Upload final project files and verification screenshots.
-
----
-
-## 15. References
-
-1. [SKY130 PDK Documentation](https://skywater-pdk.readthedocs.io/)
-2. [Open_PDKs](https://github.com/RTimothyEdwards/open_pdks)
-3. [Magic VLSI](http://opencircuitdesign.com/magic/)
-4. [Xschem](https://xschem.sourceforge.io/)
-5. [Netgen](http://opencircuitdesign.com/netgen/)
-6. [NGSpice](https://ngspice.sourceforge.io/)
-7. [GitHub Documentation](https://docs.github.com/)
+1. Perform Netgen LVS verification.
+2. Resolve any netlist mismatches.
+3. Compare pre-layout and post-layout waveforms.
+4. Upload final project files and verification screenshots.
 
 ---
 
@@ -911,4 +892,4 @@ Further work will focus on completing DRC and LVS sign-off, performing post-layo
 **GitHub:** [jayeetaa](https://github.com/jayeetaa)  
 **Repository:** [VLSI-Physical-Verification-SKY130A](https://github.com/jayeetaa/VLSI-Physical-Verification-SKY130A)
 
-**Project Status: In Progress**
+**Project Status: 90%**
