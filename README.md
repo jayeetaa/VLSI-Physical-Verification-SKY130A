@@ -383,15 +383,15 @@ For a correctly connected CMOS inverter:
 
 ### Screenshot 3 — SPICE Simulation
 
-<img width="900" alt="SPICE Simulation" src="https://github.com/user-attachments/assets/39731523-d688-4c88-96dd-7fa20c22e3ab" />
+<img width="1916" height="1193" alt="Screenshot 2026-10-29 192632" src="https://github.com/user-attachments/assets/3f3547c9-b39a-4769-b0d3-3e98bab35337" />
 
 ### Screenshot 4 — Simulation Development
 
-<img width="900" alt="Simulation Development" src="https://github.com/user-attachments/assets/e5889b74-945d-4359-857c-3856816fe934" />
+<img width="1917" height="1198" alt="Screenshot 2026-10-29 212513" src="https://github.com/user-attachments/assets/d9751d33-9ff0-47de-a143-82350f43c6d6" />
 
 ### Screenshot 5 — Simulation Output
 
-<img width="650" alt="Simulation Output" src="https://github.com/user-attachments/assets/40ce2e57-de9c-4347-a21f-44fb773abbaf" />
+<img width="925" height="857" alt="Screenshot 2026-10-29 214908" src="https://github.com/user-attachments/assets/0f36c362-6c5c-48f1-9648-615fd9cdf451" />
 
 ### 4.6 Simulation Progress
 
@@ -402,12 +402,15 @@ These results form the basis for comparing the circuit's behavior with the post-
 ---
 
 ## 5. Physical Layout Design — Magic VLSI
+<img width="770" height="467" alt="Screenshot 2026-10-30 072409" src="https://github.com/user-attachments/assets/eef8416b-d785-4422-9b4c-deb5fd00156e" />
 
 ### 5.1 Objective
 
 The objective of physical layout design is to implement the CMOS inverter using SKY130A physical layers.
 
 The layout must represent the MOS transistors and their electrical connections.
+<img width="690" height="208" alt="Screenshot 2026-10-28 183024" src="https://github.com/user-attachments/assets/242dd93c-34ab-45e5-aa35-989ad507b63c" />
+
 
 ### 5.2 Transistor Placement
 
@@ -434,6 +437,8 @@ The required circuit connections are:
 | NMOS Gate | IN |
 | PMOS Drain | OUT |
 | NMOS Drain | OUT |
+<img width="755" height="225" alt="Screenshot 2026-10-29 122143" src="https://github.com/user-attachments/assets/25f39377-f6c1-4aaa-a8db-b84e19a4219b" />
+
 
 ### 5.4 Magic Layout Development
 
@@ -449,6 +454,8 @@ Work included:
 6. Adding and adjusting metal interconnections.
 7. Working with VDD, VSS, IN, and OUT labels.
 8. Inspecting layout geometry and connectivity.
+
+<img width="751" height="732" alt="Screenshot 2026-10-30 162706" src="https://github.com/user-attachments/assets/cb76a8ed-d89f-4530-b299-ea8fad0be41e" />
 
 ### Screenshot 6 — Initial Magic Layout Development
 
