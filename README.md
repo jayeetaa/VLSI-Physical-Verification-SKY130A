@@ -167,7 +167,7 @@ git --version
 | Netgen | LVS verification | Installed |
 | NGSpice | Circuit simulation | Installed |
 | Git | Version control | Installed |
-| SKY130A PDK | Process technology | Configured |
+| SKY130A PDK | Process technology | Installed |
 
 ### Screenshot 1 — EDA Tool Verification
 
