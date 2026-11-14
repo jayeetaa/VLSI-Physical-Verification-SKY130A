@@ -242,7 +242,8 @@ DRC checks include:
 
 ### DRC Verification
 
-![DRC Result](images/drc_result.png)
+<img width="287" height="271" alt="Screenshot 2026-10-28 183501" src="https://github.com/user-attachments/assets/3e21f4a1-4787-4aa6-8ad1-307acdf39761" />
+
 
 **Final DRC Result:** Add the exact result from your final Magic DRC output here.
 
