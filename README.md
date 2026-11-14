@@ -244,34 +244,9 @@ DRC checks include:
 
 <img width="287" height="271" alt="Screenshot 2026-10-28 183501" src="https://github.com/user-attachments/assets/3e21f4a1-4787-4aa6-8ad1-307acdf39761" />
 
-
-**Final DRC Result:** Add the exact result from your final Magic DRC output here.
-
 ---
 
-## 6. Parasitic Extraction
-
-Parasitic extraction was performed using Magic VLSI to obtain the electrical characteristics associated with the physical layout.
-
-The extraction process identifies parasitic resistance and capacitance introduced by the physical interconnections.
-
-### Commands Used
-
-```tcl
-extract all
-ext2spice lvs
-ext2spice
-```
-
-The extracted SPICE netlist provides the physical-layout information required for post-layout simulation and further verification.
-
-### Parasitic Extraction Output
-
-![Parasitic Extraction](images/parasitic_extraction.png)
-
----
-
-## 7. Layout Versus Schematic (LVS) Verification
+## 6. Layout Versus Schematic (LVS) Verification
 
 LVS verification was performed using Netgen to compare the extracted layout netlist with the original schematic netlist.
 
@@ -293,7 +268,7 @@ The purpose of LVS is to ensure that the physical layout represents the intended
 
 ---
 
-## 8. Post-Layout Simulation
+## 7. Post-Layout Simulation
 
 Post-layout simulation uses the extracted SPICE netlist generated from the physical layout.
 
@@ -355,7 +330,6 @@ VLSI-Physical-Verification-SKY130A/
     ├── initial_layout.png
     ├── final_layout.png
     ├── drc_result.png
-    ├── parasitic_extraction.png
     ├── lvs_result.png
     └── postlayout_waveform.png
 ```
