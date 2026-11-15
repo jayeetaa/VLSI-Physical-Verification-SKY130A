@@ -223,8 +223,7 @@ Power, ground, input, and output connections were created using the appropriate 
 
 ### Final Routed Layout
 
-<img width="1912" height="1198" alt="Screenshot 2026-11-14 215014" src="https://github.com/user-attachments/assets/1d468555-5289-4d68-a546-055b69205570" />
-
+<img width="1897" height="1130" alt="Screenshot 2026-11-15 144307" src="https://github.com/user-attachments/assets/4f339ad8-8e5c-49b6-a468-7f75f4d90e73" />
 
 ---
 
@@ -242,7 +241,7 @@ DRC checks include:
 
 ### DRC Verification
 
-<img width="287" height="271" alt="Screenshot 2026-10-28 183501" src="https://github.com/user-attachments/assets/3e21f4a1-4787-4aa6-8ad1-307acdf39761" />
+<img width="1917" height="1196" alt="Screenshot 2026-11-15 152221" src="https://github.com/user-attachments/assets/40aef60d-eda8-4722-a91f-f458f9e40c28" />
 
 ---
 
@@ -262,7 +261,7 @@ The purpose of LVS is to ensure that the physical layout represents the intended
 
 ### LVS Result
 
-![LVS Verification](images/lvs_result.png)
+<img width="817" height="796" alt="Screenshot 2026-11-15 164320" src="https://github.com/user-attachments/assets/00b2cf79-0faa-4e49-9cf2-d843a75b0817" />
 
 **Final LVS Result:** Add the exact result reported by Netgen here.
 
@@ -278,7 +277,7 @@ This helps evaluate the circuit response after physical implementation.
 
 ### Post-Layout Waveform
 
-![Post-layout Simulation](images/postlayout_waveform.png)
+<img width="1917" height="1198" alt="Screenshot 2026-11-15 165657" src="https://github.com/user-attachments/assets/0d32e778-3861-474b-b934-a6297751344c" />
 
 ---
 
