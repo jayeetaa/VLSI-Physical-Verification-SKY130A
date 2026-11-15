@@ -333,7 +333,8 @@ Physical interconnections introduce parasitic resistance and capacitance, which 
 
 ### Post-Layout Simulation Waveform
 
-<img width="1917" height="1198" alt="Screenshot 2026-11-15 165657" src="https://github.com/user-attachments/assets/2399cc86-6bc0-4da8-8bc7-a0ba81a34ee8" />
+<img width="639" height="634" alt="Screenshot 2026-11-15 165657" src="https://github.com/user-attachments/assets/434656c7-d72c-4ef4-89ca-c7d6d4fb38c3" />
+
 
 
 The extracted netlist was used for post-layout simulation to examine the inverter response after physical implementation.
