@@ -516,7 +516,29 @@ VLSI-Physical-Verification-SKY130A/
 
 ---
 
-## 12. Final Project Summary
+## 12. Final Project Results
+
+The CMOS inverter was successfully designed, physically implemented, and verified using the SKY130A PDK.
+
+The final verification results are summarized below:
+
+| **Verification Stage**         | **Result**              |
+| ------------------------------ | ----------------------- |
+| Xschem schematic design        | Completed               |
+| Pre-layout NGSpice simulation  | Completed               |
+| Magic physical layout          | Completed               |
+| DRC verification               | 0 violations            |
+| Layout extraction              | Completed               |
+| Netgen LVS verification        | Circuits match uniquely |
+| Post-layout NGSpice simulation | Completed               |
+
+### Overall Result
+
+The project demonstrates the complete CMOS inverter design and physical verification workflow, from transistor-level schematic development to post-layout simulation.
+
+The verification stages establish the geometrical and electrical correctness of the implemented layout against the reference schematic.
+
+## 13. Final Project Summary
 
 | Design / Verification Stage | Tool Used |
 |:---|:---|
@@ -531,7 +553,7 @@ VLSI-Physical-Verification-SKY130A/
 
 ---
 
-## 13. Conclusion
+## 14. Conclusion
 
 This project demonstrates the transistor-level design and physical verification of a CMOS inverter using the SKY130A 130nm Process Design Kit and open-source VLSI EDA tools.
 
