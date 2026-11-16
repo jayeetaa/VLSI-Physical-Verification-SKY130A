@@ -362,16 +362,6 @@ The extraction process identifies:
 - Layout-related parasitic information.
 - Interconnect-related electrical effects.
 
-### Extraction Output
-
-The extracted SPICE netlist is used as the circuit input for post-layout simulation.
-
-<p align="center">
-  <img src="https://github.com/user-attachments/assets/434656c7-d72c-4ef4-89ca-c7d6d4fb38c3" width="650" alt="Layout extraction and post-layout simulation evidence" />
-</p>
-
----
-
 ## 8. Post-Layout Simulation Using NGSpice
 
 After physical layout implementation and extraction, post-layout transient simulation was performed using NGSpice.
