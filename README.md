@@ -21,24 +21,40 @@
 
 ## 📌 Project Overview
 
-This project demonstrates the design and physical verification of a **CMOS Inverter using the SKY130A 130nm Process Design Kit (PDK)**.
+This project demonstrates the transistor-level design, physical implementation, and verification of a **CMOS Inverter using the SKY130A 130nm Process Design Kit (PDK)**.
 
-The implementation follows a practical transistor-level VLSI design flow using open-source Electronic Design Automation (EDA) tools.
+The project follows a practical VLSI design and physical verification workflow using open-source Electronic Design Automation (EDA) tools.
 
-Starting from schematic creation, the project progresses through SPICE netlist generation, pre-layout simulation, physical layout implementation, Design Rule Checking (DRC), parasitic extraction, Layout Versus Schematic (LVS) verification, and post-layout simulation.
+Starting from schematic development, the implementation progresses through SPICE netlist generation, pre-layout transient simulation, physical layout design, Design Rule Checking (DRC), parasitic extraction, Layout Versus Schematic (LVS) verification, and post-layout simulation.
 
-The primary objective is to understand how a transistor-level circuit is translated into a physical layout and how its electrical and geometrical correctness is verified.
+The primary objective is to understand how a transistor-level CMOS circuit is translated into a physical layout and how its electrical connectivity and geometrical correctness are verified.
 
 ### Project Highlights
 
-- CMOS inverter design using SKY130A NMOS and PMOS devices.
-- Transistor-level schematic development using Xschem.
-- SPICE netlist generation and pre-layout simulation using NGSpice.
-- Physical layout implementation and routing using Magic VLSI.
-- Design Rule Checking using SKY130A technology rules.
-- Parasitic extraction from the physical layout.
-- Layout Versus Schematic verification using Netgen.
-- Post-layout circuit simulation using the extracted netlist.
+- Designed a CMOS inverter using SKY130A PMOS and NMOS transistor models.
+- Developed the transistor-level schematic using Xschem.
+- Generated SPICE netlists and performed pre-layout simulation using NGSpice.
+- Implemented the physical layout using Magic VLSI.
+- Performed Design Rule Checking using SKY130A technology rules.
+- Extracted layout-related parasitic information.
+- Performed Layout Versus Schematic verification using Netgen.
+- Conducted post-layout transient simulation using the extracted SPICE netlist.
+- Analyzed the differences between pre-layout and post-layout simulation.
+
+---
+
+## 🎯 Project Objectives
+
+- Understand the working principle of a CMOS inverter.
+- Design a transistor-level CMOS inverter schematic using Xschem.
+- Verify circuit functionality through pre-layout simulation.
+- Implement the physical layout using Magic VLSI.
+- Understand SKY130A fabrication layers and metal interconnections.
+- Perform DRC to examine layout geometrical constraints.
+- Perform LVS to compare the physical layout with the reference schematic.
+- Extract parasitic information from the physical layout.
+- Perform post-layout simulation using NGSpice.
+- Understand the importance of physical verification in VLSI design.
 
 ---
 
@@ -46,13 +62,14 @@ The primary objective is to understand how a transistor-level circuit is transla
 
 | Tool / Technology | Application |
 |:---|:---|
-| **SKY130A PDK** | 130nm CMOS process technology |
-| **Xschem** | Transistor-level schematic design |
-| **NGSpice** | SPICE-based circuit simulation |
-| **Magic VLSI** | Physical layout design, DRC and extraction |
-| **Netgen** | Layout Versus Schematic verification |
-| **Ubuntu 22.04.5 LTS** | Linux development environment |
-| **Git & GitHub** | Version control and project documentation |
+| SKY130A PDK | 130nm CMOS process technology |
+| Xschem | Transistor-level schematic design |
+| NGSpice | Pre-layout and post-layout circuit simulation |
+| Magic VLSI | Physical layout design, DRC and parasitic extraction |
+| Netgen | Layout Versus Schematic verification |
+| Ubuntu 22.04.5 LTS | Linux development environment |
+| Git | Version control |
+| GitHub | Project hosting and documentation |
 
 ---
 
@@ -62,18 +79,18 @@ The primary objective is to understand how a transistor-level circuit is transla
              DESIGN SPECIFICATION
                      |
                      v
-             SCHEMATIC DESIGN
-                  Xschem
+              SCHEMATIC DESIGN
+                   Xschem
                      |
                      v
-              SPICE NETLIST
+               SPICE NETLIST
                      |
                      v
             PRE-LAYOUT SIMULATION
-                  NGSpice
+                   NGSpice
                      |
                      v
-            PHYSICAL LAYOUT DESIGN
+           PHYSICAL LAYOUT DESIGN
                  Magic VLSI
                      |
                      v
@@ -81,24 +98,25 @@ The primary objective is to understand how a transistor-level circuit is transla
                      |
                      v
              PARASITIC EXTRACTION
+                   Magic
                      |
                      v
-         LAYOUT VERSUS SCHEMATIC (LVS)
+        LAYOUT VERSUS SCHEMATIC (LVS)
                    Netgen
                      |
                      v
             POST-LAYOUT SIMULATION
-                  NGSpice
+                   NGSpice
                      |
                      v
-              FINAL ANALYSIS
+                FINAL ANALYSIS
 ```
 
 ---
 
 ## 1. Environment Setup & PDK Configuration
 
-The project environment was configured using Ubuntu 22.04.5 LTS with the SKY130A PDK and the required open-source EDA tools.
+The development environment was configured using Ubuntu 22.04.5 LTS with the SKY130A PDK and the required open-source EDA tools.
 
 ### Development Environment
 
@@ -108,9 +126,11 @@ The project environment was configured using Ubuntu 22.04.5 LTS with the SKY130A
 | Process Technology | SKY130A |
 | Technology Node | 130nm |
 | PDK | SKY130A |
-| Design Tools | Xschem, NGSpice, Magic, Netgen |
+| Design Tools | Xschem, NGSpice, Magic VLSI, Netgen |
 
 ### EDA Tools Verification
+
+The installed EDA tools were checked in the Ubuntu environment to ensure that the required tools were available for the design and verification workflow.
 
 <p align="center">
   <img src="images/tools_verification.png" width="850" alt="EDA tools verification in Ubuntu" />
@@ -144,11 +164,13 @@ The project environment was configured using Ubuntu 22.04.5 LTS with the SKY130A
 
 ---
 
-## 2. CMOS Inverter Schematic Design
+## 2. CMOS Inverter Schematic Design Using Xschem
 
-A CMOS inverter was designed using complementary NMOS and PMOS transistors available in the SKY130A PDK.
+A CMOS inverter was designed using complementary PMOS and NMOS transistors available in the SKY130A PDK.
 
 ### Circuit Architecture
+
+A CMOS inverter consists of two complementary MOS transistors:
 
 | Component | Function |
 |:---|:---|
@@ -156,7 +178,7 @@ A CMOS inverter was designed using complementary NMOS and PMOS transistors avail
 | NMOS | Pull-down network |
 | Common Gate | Input terminal (VIN) |
 | Common Drain | Output terminal (VOUT) |
-| VDD | Positive supply (1.8 V) |
+| VDD | Positive supply voltage (1.8 V) |
 | GND | Ground reference |
 
 ### Transistor Specifications
@@ -181,19 +203,23 @@ A CMOS inverter was designed using complementary NMOS and PMOS transistors avail
   <img src="https://github.com/user-attachments/assets/f7763e02-ca89-4b98-96c0-d91230d574c5" width="900" alt="CMOS inverter schematic implementation" />
 </p>
 
-The transistor-level schematic was developed in Xschem using SKY130A device models.
+The transistor-level schematic was developed in Xschem using SKY130A transistor models.
 
-The PMOS and NMOS gates share the same input, while their drains are connected to form the output. The PMOS source is connected to VDD and the NMOS source is connected to GND.
+The PMOS and NMOS gates are connected to the same input signal, while their drains are connected to form the output terminal.
+
+The PMOS source is connected to VDD, and the NMOS source is connected to GND.
+
+This complementary transistor arrangement forms the basic CMOS inverter circuit.
 
 ---
 
 ## 3. Pre-Layout Simulation Using NGSpice
 
-After completing the schematic, the SPICE netlist was generated and simulated using NGSpice.
+After completing the schematic design, the SPICE netlist was generated and simulated using NGSpice.
 
-Transient analysis was performed to examine the switching characteristics of the CMOS inverter.
+Transient analysis was performed to verify the switching behaviour of the CMOS inverter before physical layout implementation.
 
-### Operating Principle
+### Working Principle of CMOS Inverter
 
 A CMOS inverter produces an output that is logically complementary to its input.
 
@@ -210,13 +236,13 @@ A CMOS inverter produces an output that is logically complementary to its input.
 
 ### Simulation Analysis
 
-The transient waveform illustrates the relationship between the input and output signals.
+The transient waveform demonstrates the complementary relationship between the input and output signals.
 
-- When the input is LOW, the PMOS transistor conducts and the output is pulled towards VDD.
-- When the input is HIGH, the NMOS transistor conducts and the output is pulled towards GND.
-- The output follows the inverted form of the input signal.
+- When the input is LOW, the PMOS transistor turns ON and pulls the output towards VDD.
+- When the input is HIGH, the NMOS transistor turns ON and pulls the output towards GND.
+- The output waveform follows the inverted form of the input waveform.
 
-This stage verifies the expected logical switching behaviour before physical layout implementation.
+**Observation:** The pre-layout simulation verifies the expected logical operation of the CMOS inverter.
 
 ---
 
@@ -243,32 +269,34 @@ The transistor-level circuit was translated into a geometrical representation us
 
 The PMOS and NMOS transistors were placed and interconnected to implement the required CMOS inverter topology.
 
-The layout includes:
+The physical layout includes:
 
 - PMOS and NMOS transistor regions.
-- Gate connections for the common input.
+- Common gate connections for the input.
 - Drain interconnection for the output.
 - Power routing through VDD.
 - Ground routing through GND.
 - Metal interconnections and contact structures.
 
-### Final Routed Layout
+### Final Routed CMOS Inverter Layout
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/4f339ad8-8e5c-49b6-a468-7f75f4d90e73" width="950" alt="Final routed CMOS inverter physical layout in Magic VLSI" />
 </p>
 
-The final routed layout represents the physical implementation of the inverter using the SKY130A process layers.
+The final routed layout represents the physical implementation of the CMOS inverter using SKY130A process layers.
 
 ---
 
 ## 5. Design Rule Checking (DRC)
 
-Design Rule Checking was performed using Magic VLSI to examine whether the physical layout satisfies the geometrical constraints specified by the SKY130A fabrication technology.
+Design Rule Checking was performed using Magic VLSI to examine whether the physical layout follows the geometrical constraints specified by the SKY130A fabrication technology.
+
+DRC is an important physical verification stage because layout geometries must satisfy technology-specific manufacturing constraints.
 
 ### DRC Checks
 
-The layout was examined for the following design constraints:
+The layout was examined for design constraints such as:
 
 - Minimum metal width requirements.
 - Minimum spacing between layout layers.
@@ -277,100 +305,189 @@ The layout was examined for the following design constraints:
 - Metal-to-metal spacing.
 - Well and active-region design rules.
 
-### DRC Verification
+### DRC Verification Result
 
 <p align="center">
   <img src="https://github.com/user-attachments/assets/40aef60d-eda8-4722-a91f-f458f9e40c28" width="950" alt="Magic VLSI design rule checking result" />
 </p>
 
-DRC is an essential physical verification stage because geometrically incorrect layouts may not satisfy the fabrication requirements.
+The DRC verification output is shown above.
 
 ---
 
-## 6. Layout Versus Schematic (LVS) Verification
+## 6. Layout Versus Schematic (LVS) Verification Using Netgen
 
 Layout Versus Schematic verification was performed using Netgen.
 
-LVS compares the extracted electrical connectivity of the physical layout against the reference schematic netlist.
+LVS is used to compare the electrical connectivity of the extracted physical layout netlist against the reference schematic netlist.
 
-### Verification Parameters
+The purpose of this verification is to ensure that the physical layout represents the intended transistor-level circuit.
+
+### LVS Verification Parameters
 
 The comparison involves:
 
-- Device recognition and matching.
-- NMOS and PMOS transistor identification.
-- Source, drain, gate and bulk terminal connectivity.
+- PMOS and NMOS device recognition.
+- Transistor terminal connectivity.
+- Source, drain, gate and bulk connections.
 - Electrical net connectivity.
 - Circuit topology and structural equivalence.
 
 ### LVS Verification Result
 
 <p align="center">
-  <img src="https://github.com/user-attachments/assets/00b2cf79-0faa-4e49-9cf2-d843a75b0817" width="750" alt="Netgen LVS verification output" />
+  <img src="https://github.com/user-attachments/assets/00b2cf79-0faa-4e49-9cf2-d843a75b0817" width="850" alt="Netgen LVS verification output" />
 </p>
 
-**LVS Status:** Update with the exact comparison result reported by Netgen.
+The Netgen comparison output is included above as the LVS verification evidence.
 
-LVS verification helps establish whether the physical layout electrically represents the intended schematic.
+LVS verification is essential for identifying connectivity differences between the physical layout and the reference schematic.
 
 ---
 
-## 7. Parasitic Extraction & Post-Layout Simulation
+## 7. Parasitic Extraction Using Magic VLSI
 
-After physical layout implementation, parasitic extraction was performed to obtain the electrical parasitic information associated with the layout.
+After physical layout implementation, parasitic extraction was performed using Magic VLSI.
 
-Physical interconnections introduce parasitic resistance and capacitance, which can influence the timing and switching behaviour of a circuit.
+Physical interconnections introduce parasitic capacitances and resistances that can influence circuit behaviour, switching characteristics and timing.
 
-### Pre-Layout vs Post-Layout Simulation
+Parasitic extraction generates an electrical representation of the physical layout that can be used for post-layout simulation.
+
+### Extraction Process
+
+The extraction process identifies:
+
+- Transistor devices present in the physical layout.
+- Electrical connections between devices.
+- Layout-related parasitic information.
+- Interconnect-related electrical effects.
+
+### Extraction Output
+
+The extracted SPICE netlist is used as the circuit input for post-layout simulation.
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/434656c7-d72c-4ef4-89ca-c7d6d4fb38c3" width="650" alt="Layout extraction and post-layout simulation evidence" />
+</p>
+
+---
+
+## 8. Post-Layout Simulation Using NGSpice
+
+After physical layout implementation and extraction, post-layout transient simulation was performed using NGSpice.
+
+The extracted SPICE netlist was used to simulate the inverter after physical implementation.
+
+Unlike pre-layout simulation, post-layout simulation can account for parasitic effects included in the extracted netlist.
+
+### Post-Layout Simulation Configuration
+
+| Parameter | Value |
+|:---|:---|
+| Technology | SKY130A |
+| Process Technology | 130nm |
+| Supply Voltage | 1.8 V |
+| Input Signal | Pulse waveform |
+| Input Voltage Range | 0–1.8 V |
+| Simulation Type | Transient Analysis |
+| Simulator | NGSpice |
+| Circuit Source | Extracted layout netlist |
+
+### Post-Layout Simulation Execution
+
+The post-layout testbench is executed using NGSpice.
+
+```bash
+ngspice postlayout_tb.spice
+```
+
+The input and output waveforms can be observed using:
+
+```spice
+plot v(in) v(out)
+```
+
+### Post-Layout Simulation Waveform
+
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/434656c7-d72c-4ef4-89ca-c7d6d4fb38c3" width="650" alt="Post-layout simulation evidence" />
+</p>
+
+### Simulation Analysis
+
+The post-layout simulation is used to examine the inverter response after including the extracted layout information.
+
+The expected inverter behaviour is:
+
+- When the input is LOW, the output becomes HIGH.
+- When the input is HIGH, the output becomes LOW.
+- The output maintains the complementary response of the input.
+
+The extracted parasitic information provides a more physically representative circuit model compared with an ideal schematic-level simulation.
+
+---
+
+## 9. Pre-Layout vs Post-Layout Simulation
+
+Pre-layout and post-layout simulations are important stages in the CMOS design workflow.
+
+Pre-layout simulation verifies circuit functionality using the schematic netlist, whereas post-layout simulation evaluates the circuit using the extracted physical layout netlist.
+
+### Comparison
 
 | Parameter | Pre-Layout | Post-Layout |
 |:---|:---|:---|
 | Circuit Source | Schematic netlist | Extracted layout netlist |
-| Physical Interconnect Effects | Not included | Included through extraction |
-| Parasitic Resistance | Not extracted from layout | Extracted where configured |
-| Parasitic Capacitance | Not extracted from layout | Extracted where configured |
-| Simulation Tool | NGSpice | NGSpice |
+| Simulator | NGSpice | NGSpice |
+| Supply Voltage | 1.8 V | 1.8 V |
+| Input Range | 0–1.8 V | 0–1.8 V |
+| Physical Interconnect Effects | Not included from layout extraction | Included through extraction |
+| Parasitic Capacitance | Not extracted from layout | Included where configured |
+| Parasitic Resistance | Not extracted from layout | Included where configured |
+| Analysis | Transient | Transient |
 
-### Post-Layout Simulation Waveform
+### Key Observation
 
-<img width="639" height="634" alt="Screenshot 2026-11-15 165657" src="https://github.com/user-attachments/assets/434656c7-d72c-4ef4-89ca-c7d6d4fb38c3" />
+Post-layout simulation provides a more physically representative view of circuit behaviour because it considers parasitic effects associated with the physical implementation.
 
-
-
-The extracted netlist was used for post-layout simulation to examine the inverter response after physical implementation.
-
-This stage provides insight into the effect of physical interconnect parasitics on circuit behaviour.
+Comparing both simulations helps understand the relationship between schematic-level circuit behaviour and physical layout effects.
 
 ---
 
-## 8. Challenges & Learning Outcomes
-
-### Technical Skills Developed
-
-- Configuring open-source EDA tools in a Linux environment.
-- Understanding and working with the SKY130A PDK.
-- Creating transistor-level CMOS schematics using Xschem.
-- Generating and debugging SPICE netlists.
-- Performing transient circuit simulations using NGSpice.
-- Understanding CMOS inverter switching characteristics.
-- Implementing physical layouts using Magic VLSI.
-- Understanding semiconductor layout layers and interconnections.
-- Debugging metal routing, contacts and via connections.
-- Performing physical Design Rule Checking.
-- Comparing schematic and layout netlists using Netgen.
-- Understanding parasitic extraction and post-layout simulation.
+## 10. Challenges Encountered & Learning Outcomes
 
 ### Challenges Encountered
 
-- Setting up the SKY130A PDK and configuring the EDA environment.
+During the implementation of this project, the following technical challenges were addressed:
+
+- Setting up the SKY130A PDK in the Ubuntu environment.
+- Configuring the required open-source EDA tools.
 - Understanding the relationship between schematic connectivity and physical layout.
 - Handling metal routing and layer connectivity.
-- Resolving layout-related issues during physical implementation.
-- Understanding the importance of parasitic effects in post-layout analysis.
+- Working with contacts, vias and interconnection layers.
+- Understanding layout extraction and the generated SPICE netlist.
+- Learning the role of parasitic effects in post-layout simulation.
+
+### Technical Skills Developed
+
+Through this project, practical experience was gained in:
+
+1. Understanding CMOS inverter operation and transistor-level design.
+2. Creating schematic designs using Xschem.
+3. Generating and working with SPICE netlists.
+4. Performing transient simulation using NGSpice.
+5. Implementing physical layouts using Magic VLSI.
+6. Understanding SKY130A semiconductor fabrication layers.
+7. Performing physical Design Rule Checking.
+8. Comparing schematic and extracted layout netlists using Netgen.
+9. Understanding parasitic extraction.
+10. Performing post-layout simulation and analysis.
 
 ---
 
-## 9. Repository Structure
+## 11. Repository Structure
+
+The project repository is organized into the following directories:
 
 ```text
 VLSI-Physical-Verification-SKY130A/
@@ -409,15 +526,45 @@ VLSI-Physical-Verification-SKY130A/
 
 ---
 
-## 10. Conclusion
+## 12. Final Project Summary
 
-This project demonstrates the practical implementation of a CMOS inverter using the SKY130A 130nm process technology and open-source VLSI EDA tools.
+| Design / Verification Stage | Tool Used |
+|:---|:---|
+| Schematic Design | Xschem |
+| SPICE Netlist Generation | Xschem |
+| Pre-Layout Simulation | NGSpice |
+| Physical Layout Implementation | Magic VLSI |
+| Design Rule Checking | Magic VLSI |
+| Parasitic Extraction | Magic VLSI |
+| Layout Versus Schematic Verification | Netgen |
+| Post-Layout Simulation | NGSpice |
 
-The work covers the major stages of the transistor-level design and physical verification workflow, including schematic development, pre-layout simulation, physical layout implementation, DRC, parasitic extraction, LVS, and post-layout simulation.
+---
 
-Through this implementation, I developed a practical understanding of how circuit-level designs are translated into physical layouts and how electrical and geometrical correctness are evaluated during the VLSI design process.
+## 13. Conclusion
 
-The project strengthened my understanding of CMOS fundamentals, physical design concepts, layout verification, and the relationship between schematic design and silicon-level implementation.
+This project demonstrates the transistor-level design and physical verification of a CMOS inverter using the SKY130A 130nm Process Design Kit and open-source VLSI EDA tools.
+
+The implementation covers the major stages of the VLSI design workflow, beginning with schematic development using Xschem and pre-layout simulation using NGSpice.
+
+The physical layout was implemented using Magic VLSI, followed by Design Rule Checking, parasitic extraction and Layout Versus Schematic verification using Netgen.
+
+Finally, post-layout transient simulation was performed using the extracted SPICE netlist to study the inverter response after physical implementation.
+
+Through this project, practical knowledge was developed in CMOS circuit design, physical layout implementation, design rule checking, layout verification, parasitic extraction and post-layout simulation.
+
+The project provided hands-on exposure to the relationship between transistor-level circuit design and its physical implementation using an open-source VLSI design flow.
+
+---
+
+## 📚 References
+
+- [SkyWater SKY130 Open-Source PDK](https://github.com/google/skywater-pdk)
+- [Open_PDKs](https://github.com/RTimothyEdwards/open_pdks)
+- [Xschem – Schematic Capture Tool](https://github.com/StefanSchippers/xschem)
+- [Magic VLSI Layout Tool](http://opencircuitdesign.com/magic/)
+- [Netgen LVS](http://opencircuitdesign.com/netgen/)
+- [NGSpice Circuit Simulator](https://ngspice.sourceforge.io/)
 
 ---
 
@@ -441,7 +588,7 @@ B.Tech – Electronics and Communication Engineering
 ---
 
 <p align="center">
-  **CMOS Design • Physical Layout • Verification • Simulation**
+  <b>CMOS Design • Physical Layout • Verification • Simulation</b>
   <br/>
   <i>Learning VLSI through hands-on implementation.</i>
 </p>
